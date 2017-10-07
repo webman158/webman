@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>websocket初体验</title>
+</head>
+<body>
+
+<!--操作按钮-->
+<button type="button" id="connection">连接</button>
+<button type="button" id="disconnect">断开</button>
+
+<!--提示信息-->
+<textarea name="" id="info" cols="30" rows="10"></textarea>
+
+<script>
+  var info = document.getElementById("info");
+  var connection = document.getElementById("connection");
+  var disconnect = document.getElementById("disconnect");
+  var ws = null;
+  
+  //开启链接
+  connection.onclick = function () {
+    startWeb();
+  }
+  
+  //断开链接
+  disconnect.onclick = function () {
+    
+  }
+  
+  
+  function startWeb() {
+    //判断是否支持websocket
+    if (!window.WebSocket) {
+      document.write('This browser is not supports WebSocket.')
+      return;
+    }
+    
+    //开启链接一个ws
+    var baseUrl = "ws://echo.websocket.org";
+    
+    //  WebSocket对象作为一个构造函数，用于新建WebSocket实例。
+    ws = new WebSocket(baseUrl);
+    //  执行上面语句之后，客户端就会与服务器进行连接。
+    
+    
+    //  实例对象的onopen属性，用于指定连接成功后的回调函数。
+    ws.onopen = function (e) {
+      console.log('Connection open ...');
+      
+      // 实例对象的send()方法用于向服务器发送数据。
+      ws.send('Hello WebSocket!');
+    }
+    
+    //  实例对象的onmessage属性，用于指定收到服务器数据后的回调函数。
+    ws.onmessage = function (e) {
+      var data = e.data;
+      console.log('Receive Message: ' + data);
+      
+      //处理数据
+    }
+    
+    //  实例对象的onclose属性，用于指定连接关闭后的回调函数。
+    ws.onclose = function (e) {
+      console.log('Connection close ...');
+    }
+  }
+
+
+</script>
+
+</body>
+</html>
